@@ -1,337 +1,134 @@
-// import React from 'react';
-// import './table.css';
-// import Button from '@mui/material/Button';
-// import axios from 'axios';
-// import CheckBoxIcon from '@mui/icons-material/CheckBox';
-// import CancelIcon from '@mui/icons-material/Cancel';
-// export default class Finance extends React.Component {
-//     state = {
-//         products: [],
-//         loggedIn:false,
-//         isAdmin:false
-//     }
-//     componentDidMount() {
-//         let loggedIn = localStorage.getItem('LoggedIn');
-//         let isAdmin = localStorage.getItem('isAdmin')
-//         console.log('loggedIn',loggedIn,'isAdmin',isAdmin);
-//         if(loggedIn=='true'){
-//             this.setState({
-//                 loggedIn:true
-//             })
-//         }
-//         if(isAdmin=='true'){
-//             this.setState({
-//                 isAdmin:true
-//             })
-//         }
-//         axios.get('http://localhost:3001/getFinance')
-//             .then((res) => {
-//                 console.log(res);
-//                 let products = res.data.data.map((element) => {
-//                     let obj = {
-//                         projectID: element.projectID,
-//                         quantity: element.quantity,
-//                         requiredDate: element.requiredDate,
-//                         approvedByProcurement: element.approvedByProcurement,
-//                         approvedByFinance:element.approvedByFinance,
-//                         name:element.name,
-//                         price:element.price
-//                     }
-//                     return obj;
-//                 })
-//                 console.log(products)
-//                 this.setState({
-//                     products
-//                 });
-//             })
-//             .catch((Err) => {
-//                 console.log(Err);
-//             })
-//     }
-
-//     handleApprove = (element) => {
-//         console.log(element);
-//         let data = {
-//             projectID: element.projectID,
-//             approvedByFinance: 'Approved'
-//         };
-//         let updatedProducts = this.state.products.map((product) => {
-//             if (product.projectID == element.projectID) {
-//                 let obj = {
-//                     projectID: product.projectID,
-//                     quantity: product.quantity,
-//                     requiredDate: product.requiredDate,
-//                     approvedByFinance:  'Approved',
-//                     name:product.name,
-//                     price:product.price
-//                 }
-//                 return obj;
-//             } else {
-//                 return product;
-//             }
-//         })
-//         console.log('updatedProducts',updatedProducts)
-//         this.setState({
-//             products:updatedProducts
-//         });
-//         axios.put('http://localhost:3001/updateFinance', data)
-//             .then((response) => {
-//                 console.log(response);
-//                 let financeData = {
-//                     projectID: element.projectID,
-//                     approvedByFinance: 'Approved',
-//                     approvedByProcurement:'Approved',
-//                     requiredDate: element.requiredDate,
-//                     quantity: element.quantity,
-//                     name:element.name,
-//                     price:element.price
-//                 }
-//                 axios.post('http://localhost:3001/Logistics', financeData)
-//                     .then((updatedRes) => {
-//                         console.log(updatedRes);
-//                     }).catch((Err) => {
-//                         console.log(Err);
-//                     })
-//             }).catch((Err) => {
-//                 console.log(Err);
-//             })
-
-//     }
-
-
-//     handleReject = (element) => {
-//         console.log(element);
-//         let data = {
-//             projectID: element.projectID,
-//             approvedByFinance: 'Rejected'
-//         };
-//         axios.put('http://localhost:3001/updateFinance', data)
-//             .then((response) => {
-//                 console.log(response);
-//                 let updatedProducts = this.state.products.map((product) => {
-//                     if (product.projectID == element.projectID) {
-//                         let obj = {
-//                             projectID: product.projectID,
-//                             quantity: product.quantity,
-//                             requiredDate: product.requiredDate,
-//                             approvedByFinance:  'Rejected',
-//                             price:product.price,
-//                             name:product.price
-//                         }
-//                         return obj;
-//                     } else {
-//                         return product;
-//                     }
-//                 })
-//                 console.log('updatedProducts',updatedProducts)
-//                 this.setState({
-//                     products:updatedProducts
-//                 });
-//             }).catch((Err) => {
-//                 console.log(Err);
-//             })
-//     }
-//     render() {
-//         return (
-//             <div hidden={!(this.state.isAdmin&&this.state.loggedIn)}>
-//                   <div style={{color:'black'}}>
-//                 <h3>  Finance</h3>
-//                 </div>
-//                 <table>
-//                     <thead>
-//                         <th>Project ID</th>
-//                         <th>Quantity</th>
-//                         <th>Required Date</th>
-//                         <th>Price</th>
-//                         <th>Name</th>
-//                         <th>Action</th>
-//                     </thead>
-//                     <tbody>
-//                         {this.state.products.length > 0 ? this.state.products.map((element) => {
-//                             return (
-//                                 <tr key={element.projectID}>
-//                                     <td>{element.projectID}</td>
-//                                     <td>{element.quantity}</td>
-//                                     <td>{element.requiredDate}</td>
-//                                     <td>{element.price}</td>
-//                                     <td>{element.name}</td>
-//                                     <td>{element.approvedByFinance == 'Approved' ? <b>Approved<CheckBoxIcon></CheckBoxIcon></b> : element.approvedByFinance == 'Rejected' ? <b>Rejected<CancelIcon></CancelIcon></b> : null}<span hidden={element.approvedByFinance !== 'Pending'}> <Button onClick={()=>this.handleApprove(element)}>Approve<CheckBoxIcon></CheckBoxIcon></Button><Button onClick={()=>this.handleReject(element)}>Reject<CancelIcon></CancelIcon></Button></span></td>
-//                                 </tr>
-//                             )
-//                         }) : null}
-//                     </tbody>
-//                 </table>
-//             </div>
-//         )
-//     }
-// }
-
-
-import React from 'react';
-import './table.css';
-import Button from '@mui/material/Button';
 import axios from 'axios';
-import CheckBoxIcon from '@mui/icons-material/CheckBox';
-import CancelIcon from '@mui/icons-material/Cancel';
-export default class Finance extends React.Component {
-    state = {
-        products: [],
-        loggedIn:true,
-        isAdmin:true
-    }
-    componentDidMount() {
-        let loggedIn = localStorage.getItem('LoggedIn');
-        let isAdmin = localStorage.getItem('isAdmin')
-        console.log('loggedIn',loggedIn,'isAdmin',isAdmin);
-        if(loggedIn=='true'){
-            this.setState({
-                loggedIn:true
-            })
-        }
-        if(isAdmin=='true'){
-            this.setState({
-                isAdmin:true
-            })
-        }
-        axios.get('http://localhost:3001/getFinance')
-            .then((res) => {
-                console.log(res);
-                let products = res.data.data.map((element) => {
-                    let obj = {
-                        productID: element.productID,
-                        procurementID: element.procurementID,
-                        quantity: element.quantity,
-                        // requiredDate: element.requiredDate,
-                        approvedByProcurement: element.approvedByProcurement,
-                        price:element.price,
-                        title:element.title
-                    }
-                    return obj;
-                })
-                console.log(products)
-                this.setState({
-                    products
-                });
-            })
-            .catch((Err) => {
-                console.log(Err);
-            })
-    }
-
-    handleApprove = (element) => {
-        console.log(element);
-        let data = {
-            projectID: element.projectID,
-            approvedByFinance: 'Approved'
-        };
-        let updatedProducts = this.state.products.map((product) => {
-            if (product.projectID == element.projectID) {
-                let obj = {
-                    projectID: product.projectID,
-                    quantity: product.quantity,
-                    requiredDate: product.requiredDate,
-                    approvedByFinance:  'Approved',
-                    name:product.name,
-                    price:product.price
-                }
-                return obj;
-            } else {
-                return product;
-            }
-        })
-        console.log('updatedProducts',updatedProducts)
-        this.setState({
-            products:updatedProducts
-        });
-        axios.put('http://localhost:3001/updateFinance', data)
-            .then((response) => {
-                console.log(response);
-                let financeData = {
-                    projectID: element.projectID,
-                    approvedByFinance: 'Approved',
-                    approvedByProcurement:'Approved',
-                    requiredDate: element.requiredDate,
-                    quantity: element.quantity,
-                    name:element.name,
-                    price:element.price
-                }
-                axios.post('http://localhost:3001/Logistics', financeData)
-                    .then((updatedRes) => {
-                        console.log(updatedRes);
-                    }).catch((Err) => {
-                        console.log(Err);
-                    })
-            }).catch((Err) => {
-                console.log(Err);
-            })
-
-    }
+import React, { useState, useEffect } from 'react';
+import {TableRow, TableHead,TableContainer,AppBar, TableCell, TableBody, Table, Paper, TextField} from '@material-ui/core';
+import CloseIcon from '@mui/icons-material/Close';
+import DoneIcon from '@mui/icons-material/Done';
+import Box from '@mui/material/Box';
+import Tabs from '@mui/material/Tabs';
+import Tab from '@mui/material/Tab';
 
 
-    handleReject = (element) => {
-        console.log(element);
-        let data = {
-            projectID: element.projectID,
-            approvedByFinance: 'Rejected'
-        };
-        axios.put('http://localhost:3001/updateFinance', data)
-            .then((response) => {
-                console.log(response);
-                let updatedProducts = this.state.products.map((product) => {
-                    if (product.projectID == element.projectID) {
-                        let obj = {
-                            projectID: product.projectID,
-                            quantity: product.quantity,
-                            requiredDate: product.requiredDate,
-                            approvedByFinance:  'Rejected',
-                            price:product.price,
-                            name:product.price
-                        }
-                        return obj;
-                    } else {
-                        return product;
-                    }
-                })
-                console.log('updatedProducts',updatedProducts)
-                this.setState({
-                    products:updatedProducts
-                });
-            }).catch((Err) => {
-                console.log(Err);
-            })
-    }
-    render() {
-        return (
-            <div hidden={!(this.state.isAdmin&&this.state.loggedIn)}>
-                  <div style={{color:'black'}}>
-                <h3>  Finance</h3>
-                </div>
-                <table>
-                    <thead>
-                    <th>Product ID</th>
-                        <th>Quantity</th>
-                        {/* <th>Required Date</th> */}
-                        <th>Price</th>
-                        <th>Title</th>
-                        <th>Status</th>
-                    </thead>
-                    <tbody>
-                        {this.state.products.length > 0 ? this.state.products.map((element) => {
-                            return (
-                                <tr key={element.productID}>
-                                    <td>{element.productID}</td>
-                                    <td>{element.quantity}</td>
-                                    {/* <td>{element.requiredDate}</td> */}
-                                    <td>{element.price}</td>
-                                    <td>{element.title}</td>
-                                    <td>{element.approvedByFinance == 'Approved' ? <b>Approved<CheckBoxIcon></CheckBoxIcon></b> : element.approvedByFinance == 'Rejected' ? <b>Rejected<CancelIcon></CancelIcon></b> : null}<span hidden={element.approvedByFinance !== 'Pending'}> <Button onClick={()=>this.handleApprove(element)}>Approve<CheckBoxIcon></CheckBoxIcon></Button><Button onClick={()=>this.handleReject(element)}>Reject<CancelIcon></CancelIcon></Button></span></td>
-                                </tr>
-                            )
-                        }) : null}
-                    </tbody>
-                </table>
-            </div>
-           
-        )
-    }
+export default function CenteredTabs() {
+ const [value, setValue] = React.useState(0);
+ const [data, setData] = useState([]);
+ const [ashow, setAShow] = useState(false);
+ const [rshow, setRShow] = useState(false);
+ const [pshow, setPShow] = useState(true);
+ 
+ const handleChange = (element, newValue) => {
+   if(newValue == 0){
+     setPShow(true);
+     setAShow(false);
+     setRShow(false);
+   }else if(newValue == 1){
+    setPShow(false);
+    setAShow(true);
+    setRShow(false);
+  }
+  else if(newValue == 2){
+    setPShow(false);
+    setAShow(false);
+    setRShow(true);
+  }
+   setValue(newValue);
+ };
+   
+  useEffect(()=> {
+   console.log("trying to load finance candidate on page load")
+     handleRefresh();
+} ,[])
+ 
+const handleRefresh = () => {
+ axios.get('http://localhost:8080/procurement/approved_carts')
+   .then((response) => {
+     console.log(response)
+     setData(response.data);
+   }).catch((err) => {
+     console.log(err);
+   })
 }
+
+ 
+const handleApprove = (row, id) => {
+ console.log(id)
+  
+ axios.post('http://localhost:8080/finance/approve/' +row.id)
+     .then((response) => {
+       console.log('new item added',response);
+       handleRefresh();
+     }).catch((err) => {
+       console.log(err)
+     })
+ }
+
+ const handleReject = (row, id) => {
+   console.log(id);
+  
+   axios.post('http://localhost:8080/finance/reject/' +row.id)
+     .then((response) => {
+       console.log(response);
+       handleRefresh();
+      
+     }).catch((err) => {
+       console.log(err);
+     })
+ }
+
+  return (
+   
+   <TableContainer component={Paper}>
+    <div key='div'>
+      
+       <AppBar position="static" key='abar'>
+     <Tabs value={value} onChange={handleChange} centered>
+       <Tab label="FINANCE Page" key='ptab' />
+       <Tab label="FINANCE Approval Table" key='atab' />
+       <Tab label="FINANCE Reject Table" key='rtab' />
+     </Tabs>
+   </AppBar>
+
+   </div>
+   { pshow?
+  
+  <Table sx={{ minWidth: 450 }} aria-label="simple table" key='hpending'> 
+
+        <TableHead>
+          <TableRow>
+           <TableCell align="center">Title</TableCell>
+           <TableCell align="center">Price</TableCell>
+           <TableCell align="center">Quantity</TableCell>
+          <TableCell align="center">Status</TableCell>
+          <TableCell align="center">Action</TableCell>
+        </TableRow>
+     </TableHead>
+      
+        <TableBody>
+         {data.map((row, id) => (
+           <TableRow
+             key={row.name}
+             sx={{ '&:last-child td, &:last-child th': { border: 0 } }}
+           >
+ 
+             <TableCell align="center">{row.title}</TableCell>
+             <TableCell align="center">{row.price}</TableCell>
+             <TableCell align="center">{row.quantity}</TableCell>
+             <TableCell align="center">{row.status}</TableCell>
+             <TableCell align="center">
+             </TableCell>
+             <TableCell align="center">
+               <DoneIcon onClick={() => handleApprove(row, id)} />{' '}{' '}
+               <CloseIcon onClick={() => handleReject(row, id)} />
+             </TableCell>
+           </TableRow>
+         ))}
+        </TableBody> 
+     
+     </Table> : ashow? <Financeapproval key='happr'></Financeapproval>:<Financereject key='hrej'></Financereject>
+     }
+   
+    </TableContainer>
+   
+ 
+  );
+}
+ 

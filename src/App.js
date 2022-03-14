@@ -6,11 +6,9 @@ import { PropTypes } from 'prop-types';
 import { Routes, Route, Navigate } from 'react-router-dom';
 import Login from './components/Login';
 import Signup from './components/Signup';
-
 import Procurement from './components/Procurement';
 import Logistics from './components/Logistics';
 import Finance from './components/Finance';
-// import Header from './components/Header';
 import Button from '@mui/material/Button';
 import Typography from '@mui/material/Typography';
 import Header from './components/Header';
@@ -27,9 +25,12 @@ import axios from 'axios';
 import ButtonGroup from '@mui/material/ButtonGroup';
 import { withRouter } from 'react-router';
 import ProtectedRoute from './protectedRoute';
-// const App = () => {
+import { HomeMax } from '@mui/icons-material';
+
+
+ 
 class App extends React.Component {
-  constructor(props) {
+constructor(props) {
     super(props);
     this.state = {
       loggedIn: false,
@@ -37,7 +38,9 @@ class App extends React.Component {
       formelement: {},
       cartItems: [],
       viewDialog: false,
-      showSuccess:false
+      showSuccess:false,
+      
+
     }
   }
 
@@ -88,26 +91,25 @@ class App extends React.Component {
   }
 
   handleSubmit = () => {
-   this.state.cartItems.map((element)=>{
-      let data = {
-        id: element.id,
-        quantity: element.quantity,
-        // requiredDate: element.requiredDate,
-        // name:localStorage.getItem('userName'),
-        // price:element.price
-      }
-    axios.post('http://localhost:8080/Cart/cart', data)
-  .then((response) => {
-        console.log(response);
-        this.setState({
-          showSuccess: true
-        })
-      }).catch((Err) => {
-        console.log(Err);
-      })
-    })
-  }
-
+    this.state.cartItems.map((element)=>{
+       let data = {
+         title: element.title,
+         quantity: element.quantity,
+        //  requiredDate: element.requiredDate,
+        //  name:localStorage.getItem('userName'),
+         price:element.price
+       }
+     axios.post('http://localhost:8080/cart', data)
+       .then((response) => {
+         console.log(response);
+         this.setState({
+           showSuccess: true
+         })
+       }).catch((Err) => {
+         console.log(Err);
+       })
+     })
+};
   
   handleClickOpen = () => {
     this.setState({
@@ -206,8 +208,9 @@ class App extends React.Component {
             element={
               <div>
                 {/* <Header /> */}
-                <Home handleClickOpen={this.handleClickOpen} cartItemCount={this.state.cartItems.length} handleAddToCart={this.handleAddToCart} handleStoreRequest={this.handleStoreRequest} isLoggedIn={this.state.loggedIn}  /> 
-                {/* //isAdmin={this.state.isAdmin} */}
+                <Home handleClickOpen={this.handleClickOpen} cartItemCount={this.state.cartItems.length} handleAddToCart={this.handleAddToCart} handleStoreRequest={this.handleStoreRequest} isLoggedIn={this.state.loggedIn} isAdmin={this.state.isAdmin}  /> 
+                {/* <Home isLoggedIn={this.state.loggedIn} 
+                isAdmin={this.state.isAdmin} /> */}
               </div>
             }
           />

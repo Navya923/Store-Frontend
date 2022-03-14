@@ -36,21 +36,21 @@ export default class Home extends React.Component {
         currentPage: 1,
         postsperpage: 4,
     }
-    componentDidMount() {
-        console.log(this.props);
-        let loggedIn = localStorage.getItem('LoggedIn');
-        let isAdmin = localStorage.getItem('isAdmin')
-        console.log('loggedIn', loggedIn,'isAdmin', isAdmin);
-        if (loggedIn == 'true') {
-            this.setState({
-                loggedIn: true
-            })
-        }
-        if (isAdmin == 'true') {
-            this.setState({
-                isAdmin: true
-            })
-        }
+        componentDidMount() {
+            console.log(this.props);
+            let loggedIn = localStorage.getItem('LoggedIn');
+            let isAdmin = localStorage.getItem('isAdmin')
+            console.log('loggedIn', loggedIn, 'isAdmin', isAdmin);
+            if (loggedIn == 'true') {
+                this.setState({
+                    loggedIn: true
+                })
+            }
+            if (isAdmin == 'true') {
+                this.setState({
+                    isAdmin: true
+                })
+            }
         if(loggedIn!=="true") {
             window.location.href="http://localhost:3000/login"
         }
@@ -259,12 +259,7 @@ export default class Home extends React.Component {
                                     <Button color="inherit" variant="contained" onClick={this.handlePrev}>Prev</Button>
                                     <Button>{this.state.currentPage}</Button>
                                     <Button color="inherit" variant="contained" onClick={this.handleNext}>Next</Button>
-
-
-                                </ButtonGroup><br />
-
-                               
-                                {/* <Button variant="contained" color="success" onClick={() => addToStore(element)} size="small" >Add to Store</Button> */}
+                                     </ButtonGroup><br />
                                 <br /><br /></div> </div>
                         : null}
 
