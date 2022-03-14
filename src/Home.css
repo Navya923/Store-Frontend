@@ -1,0 +1,4 @@
+.side-by-side li {
+    float: left;
+    display: inline;
+  }

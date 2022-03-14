@@ -1,0 +1,38 @@
+.divs{
+    text-align: left;
+    /* background-color:white; */
+    height: 50px;
+    
+    padding-right: 25px;
+}
+.link{
+    padding-left: 20px;
+    color:#C0392B;
+    padding-top: 20px;
+    
+}
+.card{
+    text-align: left;
+    
+}
+ul{
+    padding-left: 0px;
+    color:white;
+    
+}
+body{
+    padding: 0;
+    margin: 0;
+    font-size: 15px;
+    font-family: sans-serif;
+    color: lightgrey;
+    width:100%;
+    height:100vh;
+    background-position: center;
+    background-repeat: no-repeat;
+    background-size: cover;
+    background-image: url('/home/npr/Downloads/Copy of Jewelry Shop Facebook Post Image - Made with PosterMyWall (4).jpg')
+}
+
+/* best background for shopping site plain for website */
+/* '/home/npr/Downloads/Copy of Personal Mastery Instagram Story Bingo Board - Made with PosterMyWall (6).jpg' */

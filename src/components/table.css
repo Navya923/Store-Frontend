@@ -1,0 +1,29 @@
+tr:nth-child(even){background-color:white;}
+tr:hover {background-color: white;}
+th td{
+    border: 1px solid grey;
+    padding: 20px;
+    text-align: left;
+  }
+  th{
+    padding-top: 10px;
+  padding-bottom: 15px;
+  text-align: center;
+  background-color: cadetblue;
+  color: white;
+  }
+  table{
+      width: 100%;
+      color:black;
+      
+  }
+  .column {
+    float: left;
+    width: 33.33%;
+    padding: 5px;
+  }
+  .row::after {
+    content: "";
+    clear: both;
+    display: table;
+  }
